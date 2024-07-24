@@ -22,3 +22,17 @@ class UpdateInventoryCommand(Command):
 
     def execute(self):
         self.inventory.update_inventory(self.product, self.quantity)
+
+class Command(ABC):
+    @abstractmethod
+    def execute(self):
+        pass
+
+class DeleteProductCommand(Command):
+    def __init__(self, inventory, product_name):
+        self.inventory = inventory
+        self.product_name = product_name
+
+    def execute(self):
+        self.inventory.delete_product(self.product_name)
+

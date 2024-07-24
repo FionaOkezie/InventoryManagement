@@ -1,14 +1,15 @@
+# patterns/strategy.py
+
 from abc import ABC, abstractmethod
 
-class ReorderStrategy(ABC):
+class DiscountStrategy(ABC):
     @abstractmethod
-    def reorder(self, product):
+    def calculate_price(self, price):
         pass
 
-class SimpleReorderStrategy(ReorderStrategy):
-    def reorder(self, product):
-        return f"Reordering product: {product.name}"
+class PercentageDiscountStrategy(DiscountStrategy):
+    def __init__(self, percentage):
+        self.percentage = percentage
 
-class AdvancedReorderStrategy(ReorderStrategy):
-    def reorder(self, product):
-        return f"Advanced reordering of product: {product.name} based on complex algorithm"
+    def calculate_price(self, price):
+        return price * (1 - self.percentage / 100)

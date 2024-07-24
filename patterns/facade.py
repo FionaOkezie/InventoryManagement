@@ -1,28 +1,23 @@
-# from Inventory import Inventory
-
-# class InventoryFacade:
-#     def __init__(self):
-#         self.inventory = Inventory()
-
-#     def add_product(self, product, quantity):
-#         self.inventory.add_product(product, quantity)
-
-#     def get_inventory(self):
-#         return self.inventory.get_products()
-
-#     def clone_product(self, prototype):
-#         return prototype.clone()
-from Inventory import Inventory
+from inventory import Inventory
 
 class InventoryFacade:
-    def __init__(self):
-        self.inventory = Inventory()
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(InventoryFacade, cls).__new__(cls)
+            cls._instance.inventory = Inventory()
+        return cls._instance
 
     def add_product(self, product, quantity):
         self.inventory.add_product(product, quantity)
+        self.inventory.notify_observers(f"Added product {product.name} with price ${product.get_price():.2f} and quantity {quantity}")
 
     def get_inventory(self):
-        return self.inventory.get_products()
+        return self.inventory
 
-    def clone_product(self, prototype):
-        return prototype.clone()
+    def add_observer(self, observer):
+        self.inventory.add_observer(observer)
+
+    def remove_observer(self, observer):
+        self.inventory.remove_observer(observer)
