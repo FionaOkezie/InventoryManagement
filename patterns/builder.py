@@ -1,4 +1,4 @@
-from Inventory import Product
+from inventory import Product
 
 class ProductBuilder:
     def __init__(self):
